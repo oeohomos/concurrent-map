@@ -63,6 +63,8 @@ func (m ConcurrentMap) Upsert(key string, value interface{}, cb UpsertCb) (res i
 	res = cb(ok, v, value)
 	if res != nil {
 		shard.items[key] = res
+	} else {
+		delete(shard.items, key)
 	}
 	shard.Unlock()
 	return res
